@@ -7,7 +7,7 @@
 It scans the MagicPlugins directory for plugins, and automatically adds them according to the folder/category created.
 
 ## Which versions of Nuke are supported?
-* Currently Nuke 11+ is supported, and tested on Linux, Mac and Windows. But earlier versions should also just work fine.
+* Currently Nuke 11+ is supported, tested on Linux, Mac and Windows. But earlier versions should also just work fine.
 
 ## Which files are supported?
 * `.gizmo`
