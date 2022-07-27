@@ -4,6 +4,9 @@
 ## What does it do?
 It scans the MagicPlugins directory for plugins, and automatically adds them according to the folder/category created.
 
+## Which versions of Nuke are supported?
+* Currently Nuke 11+ is supported, and tested on Linux, Mac and Windows. But earlier versions should also just work fine.
+
 ## Which files are supported?
 * `.gizmo`
 * `.nk` 
@@ -21,9 +24,18 @@ All folders in the MagicPlugins directory are at startup scanned. If you add a g
 
 ### Installing via the GUI
 When using the GUI installer, the plugin will be added inside the <i>Internet</i> folder/category.
-1. Select the <i>Install plugin</i> option in the MagicPlugins menu. ![The option in the menu](/MagicPlugins/resources/installing_plugin_menu.png)
-2. Select the plugin you want to install, and optionally you can select an icon as well. ![MagicPlugin installer](/MagicPlugins/resources/installing_plugin_ui.png)
-3. If the file is one of the library files (`.dll`, `.so`, `.dylib`) you also need to specify the Nuke version for the selected file. ![MagicPlugin install library file](/MagicPlugins/resources/installing_plugin_library.png)
+
+1. Select the <i>Install plugin</i> option in the MagicPlugins menu.
+
+![The option in the menu](/MagicPlugins/resources/installing_plugin_menu.png)
+
+2. Select the plugin you want to install, and optionally you can select an icon as well.
+
+![MagicPlugin installer](/MagicPlugins/resources/installing_plugin_ui.png)
+
+3. If the file is one of the library files (`.dll`, `.so`, `.dylib`) you also need to specify the Nuke version for the selected file.
+
+![MagicPlugin install library file](/MagicPlugins/resources/installing_plugin_library.png)
 
 
 ### Manually installing (multiple files)
