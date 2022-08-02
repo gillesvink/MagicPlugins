@@ -30,7 +30,7 @@ class MagicPlugins(object):
         In the menu_name variable we can assign the name for the menu."""
 
         # Startup message
-        magic_plugins_version = 1.0
+        magic_plugins_version = 1.1
         self.__print("Version %s" % str(magic_plugins_version))
 
         # Getting install location to load plugins
