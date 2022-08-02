@@ -8,6 +8,7 @@ and create menus
 
 import os
 import nuke
+import sys
 
 # Only load if we have a GUI
 if nuke.GUI:
@@ -342,6 +343,11 @@ class MagicPlugins(object):
                     else:
                         toolbar.addMenu(category)
 
+        # Adding a divider line to distinguish commands and plugins
+        divider_name = os.path.join(menu_name, "-")
+        divider_name = divider_name.replace(os.sep, "/")
+        toolbar.addCommand(divider_name, "")
+
         # Add install plugin button
         install_plugin_name = os.path.join(menu_name, "Install plugin")
         install_plugin_name = install_plugin_name.replace(os.sep, "/")
@@ -357,6 +363,45 @@ class MagicPlugins(object):
             "magic_plugins.install_plugin()",
             icon=plugin_icon,
         )
+
+        # Add install plugin button
+        open_folder_name = os.path.join(menu_name, "Open plugin folder")
+        open_folder_name = open_folder_name.replace(os.sep, "/")
+
+        # Getting the icon path
+        folder_icon = os.path.join(
+            self.script_directory, "resources", "open_folder.png"
+        )
+        folder_icon = folder_icon.replace(os.sep, "/")
+
+        toolbar.addCommand(
+            open_folder_name,
+            "magic_plugins.open_folder()",
+            icon=folder_icon,
+        )
+
+    def open_folder(self):
+        """Via this function the user can
+        easily open the folder where the plugins are located.
+
+        It will open de file browser depending on the
+        system the user is using.
+        """
+        plugin_folder = self.plugins_directory
+        operating_system = sys.platform
+
+        if operating_system == "darwin":
+            os.system("open %s" % plugin_folder)
+
+        elif operating_system == "win32":
+            plugin_folder = os.path.normpath(plugin_folder)
+            os.system("explorer %s" % plugin_folder)
+
+        elif operating_system == "linux":
+            os.system('xdg-open "%s"' % plugin_folder)
+
+        else:
+            nuke.critical("Couldn't find operating system")
 
     def __populate_menu(self, magic_toolbar, plugins):
         """Via this function we will add all
