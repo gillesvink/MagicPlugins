@@ -7,8 +7,9 @@ and create menus
 """
 
 import os
-import nuke
 import sys
+import nuke
+
 
 # Only load if we have a GUI
 if nuke.GUI:
@@ -30,7 +31,7 @@ class MagicPlugins(object):
         In the menu_name variable we can assign the name for the menu."""
 
         # Startup message
-        magic_plugins_version = 1.1
+        magic_plugins_version = 1.2
         self.__print("Version %s" % str(magic_plugins_version))
 
         # Getting install location to load plugins
@@ -46,6 +47,9 @@ class MagicPlugins(object):
             ("%i.%i" % (nuke.NUKE_VERSION_MAJOR, nuke.NUKE_VERSION_MINOR))
         )
 
+        # Getting operating system to determine library extension
+        # and to call the folder open function
+        self.operating_system = sys.platform
         # Always collect all the plugins when this script is initialized
         self.plugins = self.__locate_plugins(self.plugins_directory)
 
@@ -206,7 +210,7 @@ class MagicPlugins(object):
                 # Prevent loading if it is not the correct Nuke version
                 if nuke_version:
                     if not nuke_version == self.nuke_version:
-                        return "Installation succesful for %s" % plugin_name
+                        return "Installation successful for %s" % plugin_name
 
                 # Now we will add the plugin to the menu, here
                 # we will add the icon too
@@ -221,7 +225,7 @@ class MagicPlugins(object):
                 # Prevent loading if it is not the correct Nuke version
                 if nuke_version:
                     if not nuke_version == self.nuke_version:
-                        return "Installation succesful for %s" % plugin_name
+                        return "Installation successful for %s" % plugin_name
 
                 # Now we will add the plugin to the menu, without icon
                 self.__add_plugin_to_menu(
@@ -232,7 +236,7 @@ class MagicPlugins(object):
             # Append the plugin path to Nuke
             nuke.pluginAddPath(install_directory)
 
-            return "Installation succesful for %s" % plugin_name
+            return "Installation successful for %s" % plugin_name
 
         # If something went wrong, we will catch the error here,
         # and the artist will see it
@@ -388,7 +392,7 @@ class MagicPlugins(object):
         system the user is using.
         """
         plugin_folder = self.plugins_directory
-        operating_system = sys.platform
+        operating_system = self.operating_system
 
         if operating_system == "darwin":
             os.system("open %s" % plugin_folder)
@@ -453,6 +457,19 @@ class MagicPlugins(object):
         # we want to process to load
         plugins = []
 
+        # Here we will determine the corresponding library extension
+        # to the current operating system
+        operating_system = self.operating_system
+
+        if operating_system == "darwin":
+            library_extension = ".dylib"
+
+        elif operating_system == "win32":
+            library_extension = ".dll"
+
+        else:
+            library_extension = ".so"
+
         # Now we will walk through the entire
         # specified directory to scan for plugins
         for root, dirs, files in os.walk(plugins_directory):
@@ -475,7 +492,7 @@ class MagicPlugins(object):
                 # every library file is build for a specific version of Nuke.
                 # So we don't want to add a library file thats build for
                 # Nuke 12.2 when we are in Nuke 13.2
-                elif file_path.endswith((".dll", ".so", ".dylib")):
+                elif file_path.endswith(library_extension):
                     # Here we will validate if we want to load this plugin
                     if self.__validate_plugin(file_path):
                         # We want to load this plugin! Let's add it

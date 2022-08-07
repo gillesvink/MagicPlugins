@@ -5,3 +5,4 @@ __pycache__
 tab_stats.dat
 .MagicPlugins/plugin
 ./test
+MagicPlugins/plugins/
